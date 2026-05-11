@@ -1,0 +1,616 @@
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --blue:        #0066FF;
+  --blue-light:  #1a7aff;
+  --green:       #00C853;
+  --pink:        #E91E8C;
+  --white:       #ffffff;
+  --dark:        #0a0a2e;
+  --text:        #1a1a2e;
+  --text-muted:  #444466;
+
+  --stripe-gap:  30px;  /* white/blue section height */
+  --stripe-band: 4px;   /* thin stripe band height */
+
+  --section-pad-x: clamp(1.5rem, 6vw, 6rem);
+  --section-pad-y: clamp(3rem, 7vw, 6rem);
+  --timeline-time-w: 90px;
+}
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: 'Heebo', sans-serif;
+  direction: rtl;
+  text-align: right;
+  overflow-x: hidden;
+  background: var(--white);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* ============================================================
+   STRIPED TEXT HELPER
+   Used on section titles (blue on white) and hero title (white on blue)
+   ============================================================ */
+.hero-title .title-line {
+  display: block;
+  font-size: clamp(70px, 14vw, 160px);
+  font-weight: 900;
+  line-height: 0.92;
+  letter-spacing: -1px;
+  background: repeating-linear-gradient(
+    180deg,
+    var(--white) 0px,
+    var(--white) var(--stripe-gap),
+    var(--blue)  var(--stripe-gap),
+    var(--blue)  calc(var(--stripe-gap) + var(--stripe-band))
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.section-title {
+  font-size: clamp(38px, 8vw, 96px);
+  font-weight: 900;
+  line-height: 0.92;
+  letter-spacing: -1px;
+  background: repeating-linear-gradient(
+    180deg,
+    var(--blue) 0px,
+    var(--blue) var(--stripe-gap),
+    var(--white) var(--stripe-gap),
+    var(--white) calc(var(--stripe-gap) + var(--stripe-band))
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  min-height: 100svh;
+  background: var(--blue);
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(2.5rem, 5vw, 4.5rem) var(--section-pad-x) clamp(1.5rem, 3vw, 2.5rem);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background decorative stripes — large, behind content */
+.hero-stripes-bg {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: clamp(14px, 2vw, 22px);
+  pointer-events: none;
+  opacity: 0.07;
+}
+.hero-stripes-bg .bg-stripe {
+  width: clamp(22px, 3vw, 40px);
+  background: var(--white);
+}
+
+.hero-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  justify-content: center;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  position: relative;
+  z-index: 1;
+}
+
+.hero-title-wrap { text-align: center; }
+
+.hero-subtitle {
+  text-align: center;
+  font-size: clamp(15px, 2.4vw, 22px);
+  font-weight: 400;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.95);
+  max-width: 560px;
+}
+.hero-subtitle strong { font-weight: 700; }
+
+/* The central double-stripe divider */
+.hero-divider {
+  display: flex;
+  justify-content: center;
+  gap: clamp(12px, 1.5vw, 18px);
+  height: clamp(60px, 10vh, 120px);
+  width: 100%;
+}
+.divider-stripe {
+  width: clamp(5px, 0.7vw, 9px);
+  background: var(--white);
+  border-radius: 3px;
+}
+
+/* Hero footer bar */
+.hero-footer {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255,255,255,0.25);
+}
+
+.hero-logo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+.logo-wordmark {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+  font-weight: 700;
+  font-size: clamp(11px, 1.4vw, 14px);
+}
+.logo-line-main {
+  font-size: clamp(18px, 2.8vw, 26px);
+  font-weight: 900;
+}
+.logo-emblem svg {
+  width: clamp(52px, 7vw, 70px);
+  height: auto;
+}
+
+.hero-meta { text-align: left; }
+[dir="rtl"] .hero-meta { text-align: right; }
+.hero-meta-date {
+  font-size: clamp(13px, 1.6vw, 16px);
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+.hero-meta-note {
+  font-size: clamp(11px, 1.3vw, 13px);
+  opacity: 0.85;
+  line-height: 1.6;
+}
+
+/* ============================================================
+   SHARED CONTENT SECTION WRAPPER
+   ============================================================ */
+.content-section {
+  padding: var(--section-pad-y) var(--section-pad-x);
+  position: relative;
+  background: var(--white);
+}
+
+/* Right-side double stripe decoration */
+.side-stripes {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  gap: clamp(6px, 0.8vw, 10px);
+  padding: 0 clamp(10px, 1.5vw, 18px);
+  align-items: stretch;
+  pointer-events: none;
+}
+.side-stripe {
+  width: clamp(4px, 0.5vw, 7px);
+  background: var(--blue);
+  border-radius: 2px;
+}
+
+.section-title-wrap {
+  margin-bottom: clamp(1.5rem, 4vw, 3rem);
+  padding-right: clamp(2rem, 5vw, 5rem); /* avoid overlap with side-stripes */
+}
+
+/* Footer bar shared between sections */
+.section-footer-bar {
+  margin-top: clamp(2rem, 4vw, 4rem);
+  padding-top: 1rem;
+  border-top: 2px solid var(--blue);
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  font-size: clamp(12px, 1.4vw, 15px);
+  font-weight: 700;
+  color: var(--blue);
+}
+
+/* ============================================================
+   OVERVIEW SECTION
+   ============================================================ */
+.overview-body {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  max-width: 780px;
+  padding-right: clamp(2rem, 5vw, 5rem);
+}
+
+.overview-block {
+  font-size: clamp(15px, 1.8vw, 19px);
+  line-height: 1.75;
+  color: var(--text);
+}
+.overview-block p + p { margin-top: 0.4rem; }
+
+.bold-highlight {
+  font-weight: 700;
+  font-size: clamp(16px, 2vw, 21px);
+}
+
+/* ============================================================
+   SCHEDULE / TIMELINE
+   ============================================================ */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 4vw, 3.5rem);
+  padding-right: clamp(2rem, 5vw, 5rem);
+}
+
+/* Single timeline row */
+.tl-entry {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(1rem, 2.5vw, 2.5rem);
+}
+
+.tl-time-col {
+  flex-shrink: 0;
+  width: var(--timeline-time-w);
+  text-align: center;
+  padding-top: 0.3rem;
+}
+.tl-time {
+  font-size: clamp(20px, 3vw, 28px);
+  font-weight: 900;
+  color: var(--blue);
+  line-height: 1;
+}
+.tl-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--blue);
+  margin-top: 0.35rem;
+  line-height: 1.3;
+}
+
+.tl-content-col { flex: 1; min-width: 0; }
+
+/* ---- Session Cards ---- */
+.session-card {
+  background: #f8f9ff;
+  border-radius: 8px;
+  padding: clamp(1rem, 2vw, 1.5rem) clamp(1rem, 2vw, 1.4rem);
+  border-right: 5px solid transparent;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+.session-card:hover {
+  box-shadow: 0 6px 24px rgba(0, 102, 255, 0.12);
+  transform: translateY(-2px);
+}
+.session-card.session-gathering {
+  background: #eef4ff;
+  border-right-color: var(--blue);
+  font-size: clamp(14px, 1.8vw, 18px);
+  font-weight: 500;
+  color: var(--dark);
+}
+.border-blue        { border-right-color: var(--blue); }
+.border-blue-soft   { border-right-color: var(--blue-light); }
+.border-green       { border-right-color: var(--green); }
+.border-pink        { border-right-color: var(--pink); }
+
+/* Sessions grid for multi-round slots */
+.sessions-grid {
+  display: grid;
+  gap: clamp(0.8rem, 1.5vw, 1.2rem);
+  width: 100%;
+}
+.sessions-3 { grid-template-columns: repeat(3, 1fr); }
+.sessions-2 { grid-template-columns: repeat(2, 1fr); }
+
+/* Round badge */
+.round-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--white);
+  background: var(--blue);
+  border-radius: 20px;
+  padding: 2px 10px;
+  margin-bottom: 0.7rem;
+  letter-spacing: 0.03em;
+}
+.round-badge-pink { background: var(--pink); }
+
+/* Speaker typography */
+.speaker-name {
+  font-size: clamp(15px, 1.8vw, 19px);
+  font-weight: 900;
+  color: var(--dark);
+  margin-bottom: 0.3rem;
+  line-height: 1.2;
+}
+.speaker-bio {
+  font-size: clamp(12px, 1.3vw, 14px);
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin-bottom: 0.6rem;
+}
+.talk-title {
+  font-size: clamp(13px, 1.5vw, 16px);
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+}
+.c-green { color: var(--green); }
+.c-blue  { color: var(--blue); }
+.c-pink  { color: var(--pink); }
+
+.talk-desc {
+  font-size: clamp(12px, 1.3vw, 14px);
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+/* ============================================================
+   HOME DANCE
+   ============================================================ */
+.home-dance { border-top: 1px solid #e8eeff; }
+
+.home-body {
+  padding-right: clamp(2rem, 5vw, 5rem);
+  max-width: 760px;
+}
+
+.home-time-badge {
+  display: inline-block;
+  font-size: clamp(18px, 2.5vw, 26px);
+  font-weight: 900;
+  color: var(--blue);
+  border: 3px solid var(--blue);
+  border-radius: 30px;
+  padding: 0.2em 1em;
+  margin-bottom: 1rem;
+}
+
+.home-show-title {
+  font-size: clamp(22px, 3.5vw, 38px);
+  font-weight: 900;
+  color: var(--dark);
+  margin-bottom: 1.4rem;
+  line-height: 1.2;
+}
+.home-latin {
+  font-style: normal;
+  color: var(--blue);
+  direction: ltr;
+  display: inline-block;
+}
+
+.home-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  font-size: clamp(14px, 1.8vw, 18px);
+  line-height: 1.75;
+  color: var(--text);
+}
+
+/* ============================================================
+   CLOSING
+   ============================================================ */
+.closing {
+  background: var(--blue);
+  color: var(--white);
+  padding: clamp(4rem, 10vw, 8rem) var(--section-pad-x) clamp(2.5rem, 5vw, 4rem);
+  position: relative;
+  overflow: hidden;
+}
+.closing::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255,255,255,0.04) 0px,
+    rgba(255,255,255,0.04) 2px,
+    transparent 2px,
+    transparent 60px
+  );
+  pointer-events: none;
+}
+
+.closing-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(2rem, 5vw, 4rem);
+  text-align: center;
+}
+
+.closing-title {
+  font-size: clamp(60px, 13vw, 140px);
+  font-weight: 900;
+  line-height: 0.92;
+  background: repeating-linear-gradient(
+    180deg,
+    var(--white) 0px,
+    var(--white) var(--stripe-gap),
+    var(--blue)  var(--stripe-gap),
+    var(--blue)  calc(var(--stripe-gap) + var(--stripe-band))
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.closing-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: clamp(12px, 1.5vw, 15px);
+}
+.closing-emblem svg { width: clamp(36px, 4vw, 48px); height: auto; }
+.closing-logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+.closing-logo-bold { font-weight: 900; font-size: 1.3em; }
+
+.closing-bar {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-size: clamp(12px, 1.4vw, 15px);
+  font-weight: 700;
+  opacity: 0.8;
+  border-top: 1px solid rgba(255,255,255,0.25);
+  padding-top: 1.5rem;
+  width: 100%;
+}
+
+/* ============================================================
+   BACK-TO-TOP BUTTON
+   ============================================================ */
+.back-to-top {
+  position: fixed;
+  bottom: 1.8rem;
+  left: 1.8rem;   /* left in RTL is the lesser-prominent side */
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--blue);
+  color: var(--white);
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(0,102,255,0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 100;
+}
+.back-to-top.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+.back-to-top:hover { transform: translateY(-3px); }
+
+/* ============================================================
+   SCROLL REVEAL ANIMATION
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Stagger children when parent has .reveal-stagger */
+.reveal-stagger .reveal { transition-delay: calc(var(--i, 0) * 0.1s); }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+/* Large sessions grid → 2 col on medium screens */
+@media (max-width: 1024px) {
+  .sessions-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .sessions-3 .session-card:nth-child(3) {
+    grid-column: span 1;
+  }
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  :root { --timeline-time-w: 68px; }
+
+  .sessions-3,
+  .sessions-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .br-desktop { display: none; }
+
+  .side-stripes {
+    display: none; /* hide decorative stripes on small screens */
+  }
+
+  .section-title-wrap,
+  .overview-body,
+  .timeline,
+  .home-body {
+    padding-right: 0;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  :root {
+    --section-pad-x: 1.2rem;
+    --section-pad-y: 2.5rem;
+  }
+
+  .tl-entry {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .tl-time-col {
+    width: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    text-align: right;
+  }
+  .tl-label { margin-top: 0; }
+
+  .hero-title .title-line {
+    font-size: clamp(64px, 18vw, 100px);
+  }
+
+  .closing-title {
+    font-size: clamp(52px, 16vw, 88px);
+  }
+
+  .session-card {
+    padding: 1rem;
+  }
+}
