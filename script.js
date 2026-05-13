@@ -1,7 +1,7 @@
 'use strict';
 
 // ── Ticket URL ──────────────────────────────────────────────────────────────
-const TICKETS_URL = 'https://www.google.com';
+const TICKETS_URL = 'https://private.invoice4u.co.il/newsite/he/clearing/public/i4u-clearing?ProductGuid=9d2cef4b-520f-4088-8a6c-35373f7785d1';
 
 // ── Scroll reveal via IntersectionObserver ──────────────────────────────────
 const revealObserver = new IntersectionObserver(
