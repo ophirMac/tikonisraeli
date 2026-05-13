@@ -176,6 +176,61 @@ body {
   border-radius: 3px;
 }
 
+/* Buy tickets button — hero inline */
+.btn-tickets {
+  display: inline-block;
+  margin-top: clamp(1rem, 2vw, 1.75rem);
+  padding: 0.6em 1.6em;
+  background: var(--white);
+  color: var(--blue);
+  font-family: 'Polin', sans-serif;
+  font-size: clamp(0.85rem, 1.2vw, 1rem);
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 50px;
+  letter-spacing: 0.03em;
+  transition: background 0.2s, color 0.2s, transform 0.15s;
+}
+.btn-tickets:hover {
+  background: var(--green);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+
+/* Buy tickets button — floating (appears on scroll) */
+.btn-tickets-float {
+  position: fixed;
+  bottom: 1.8rem;
+  right: 1.8rem;
+  z-index: 999;
+  height: 44px;
+  padding: 0 1.5em;
+  display: flex;
+  align-items: center;
+  background: var(--blue);
+  color: var(--white);
+  font-family: 'Polin', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 50px;
+  box-shadow: 0 4px 18px rgba(0,102,255,0.35);
+  letter-spacing: 0.03em;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: opacity 0.3s, transform 0.3s, background 0.2s;
+}
+.btn-tickets-float.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.btn-tickets-float:hover {
+  background: var(--green);
+  transform: translateY(-2px);
+}
+
 /* Hero footer bar */
 .hero-footer {
   position: relative;
