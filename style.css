@@ -27,7 +27,7 @@
   --text:        #1a1a2e;
   --text-muted:  #444466;
 
-  --stripe-gap:  30px;  /* white/blue section height */
+  --stripe-gap:  100px;  /* white/blue section height */
   --stripe-band: 4px;   /* thin stripe band height */
 
   --section-pad-x: clamp(1.5rem, 6vw, 6rem);
