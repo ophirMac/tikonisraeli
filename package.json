@@ -1,7 +1,7 @@
 {
   "name": "tikkun-israeli-2026",
   "version": "1.0.0",
-  "description": "תיקון ישראלי – event website for בית השם חרות",
+  "description": "תיקון ישראלי – event website for בית העם חרות",
   "scripts": {
     "start": "npx serve . -l tcp://0.0.0.0:${PORT:-3000}"
   },

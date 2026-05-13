@@ -1,4 +1,18 @@
 /* ============================================================
+   FONTS
+   ============================================================ */
+@font-face { font-family: 'Polin'; src: url('assets/Polin-Hairline.otf') format('opentype'); font-weight: 100; font-style: normal; }
+@font-face { font-family: 'Polin'; src: url('assets/Polin-Thin.otf') format('opentype'); font-weight: 200; font-style: normal; }
+@font-face { font-family: 'Polin'; src: url('assets/Polin-Extralight.otf') format('opentype'); font-weight: 300; font-style: normal; }
+@font-face { font-family: 'Polin'; src: url('assets/Polin-Light.otf') format('opentype'); font-weight: 350; font-style: normal; }
+@font-face { font-family: 'Polin'; src: url('assets/Polin-Regular.otf') format('opentype'); font-weight: 400; font-style: normal; }
+@font-face { font-family: 'Polin'; src: url('assets/Polin-Medium.otf') format('opentype'); font-weight: 500; font-style: normal; }
+@font-face { font-family: 'Polin'; src: url('assets/Polin-Semibold.otf') format('opentype'); font-weight: 600; font-style: normal; }
+@font-face { font-family: 'Polin'; src: url('assets/Polin-Bold.otf') format('opentype'); font-weight: 700; font-style: normal; }
+@font-face { font-family: 'Polin'; src: url('assets/Polin-Extrabold.otf') format('opentype'); font-weight: 800; font-style: normal; }
+@font-face { font-family: 'Polin'; src: url('assets/Polin-Black.otf') format('opentype'); font-weight: 900; font-style: normal; }
+
+/* ============================================================
    RESET & BASE
    ============================================================ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -24,7 +38,7 @@
 html { scroll-behavior: smooth; font-size: 16px; }
 
 body {
-  font-family: 'Heebo', sans-serif;
+  font-family: 'Polin', sans-serif;
   direction: rtl;
   text-align: right;
   overflow-x: hidden;
@@ -55,21 +69,42 @@ body {
   background-clip: text;
 }
 
+/* "שבועות 2026" badge alongside "ישראלי" in the hero title */
+.title-line-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.4rem, 0.8vw, 0.8rem);
+}
+.title-line-row .title-line {
+  display: inline-block; /* override block so flex works */
+}
+.hero-edition-badge {
+  font-size: clamp(13px, 1.8vw, 20px);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.2;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* "שבועות 2026" badge inside section title headings */
+.section-edition {
+  font-size: 0.22em;
+  font-weight: 700;
+  line-height: 1.2;
+  display: inline-block;
+  vertical-align: top;
+  padding-top: 0.95em;
+  margin-right: 0.4em;
+}
+
 .section-title {
   font-size: clamp(38px, 8vw, 96px);
   font-weight: 900;
   line-height: 0.92;
   letter-spacing: -1px;
-  background: repeating-linear-gradient(
-    180deg,
-    var(--blue) 0px,
-    var(--blue) var(--stripe-gap),
-    var(--white) var(--stripe-gap),
-    var(--white) calc(var(--stripe-gap) + var(--stripe-band))
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--blue);
   display: inline-block;
 }
 
@@ -151,29 +186,30 @@ body {
   flex-wrap: wrap;
   gap: 1.5rem;
   padding-top: 1.5rem;
-  border-top: 1px solid rgba(255,255,255,0.25);
 }
 
-.hero-logo {
+.hero-logo-group {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0;
   flex-shrink: 0;
 }
-.logo-wordmark {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.1;
-  font-weight: 700;
-  font-size: clamp(11px, 1.4vw, 14px);
+.logo-emblem {
+  transform: translateX(-30px) translateY(-30px);
+  z-index: 0;
 }
-.logo-line-main {
-  font-size: clamp(18px, 2.8vw, 26px);
-  font-weight: 900;
-}
-.logo-emblem svg {
-  width: clamp(52px, 7vw, 70px);
+.logo-emblem img {
+  width: clamp(70px, 10vw, 110px);
   height: auto;
+  filter: invert(1);
+  opacity: 0.85;
+}
+.logo-wordmark-img {
+  height: clamp(55px, 8vw, 95px);
+  width: auto;
+  filter: brightness(0) invert(1);
+  position: relative;
+  z-index: 1;
 }
 
 .hero-meta { text-align: left; }
@@ -473,13 +509,8 @@ body {
   gap: 0.8rem;
   font-size: clamp(12px, 1.5vw, 15px);
 }
-.closing-emblem svg { width: clamp(36px, 4vw, 48px); height: auto; }
-.closing-logo-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.15;
-}
-.closing-logo-bold { font-weight: 900; font-size: 1.3em; }
+.closing-emblem img { width: 40px; height: 40px; object-fit: contain; filter: brightness(0) invert(1); }
+.closing-logo img { height: 40px; width: auto; object-fit: contain; filter: brightness(0) invert(1); }
 
 .closing-bar {
   display: flex;
@@ -563,9 +594,37 @@ body {
   }
 
   .hero-footer {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
+    position: relative;
+    min-height: 90px;
+  }
+  .hero-logo-group {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .logo-emblem {
+    position: relative;
+    z-index: 0;
+  }
+  .logo-emblem img {
+    width: clamp(90px, 28vw, 140px);
+    opacity: 0.7;
+    transform: rotate(15deg);
+  }
+  .logo-wordmark-img {
+    height: clamp(50px, 14vw, 75px);
+    opacity: 1;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-meta {
+    position: relative;
+    z-index: 1;
   }
 
   .br-desktop { display: none; }
